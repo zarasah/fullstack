@@ -32,6 +32,16 @@ app.get('/items/:id', (req, res) => {
     })
 })
 
+app.get('/basket', (req, res) => {
+    db.all('SELECT * FROM basket', [], (error, data) => {
+        if(error) {
+            console.error(error);
+        } else {
+            res.send(data);
+        }
+    })
+})
+
 app.post('/createitem', (req, res) => {
     const { name, price, img, description } = req.body;
     
@@ -66,6 +76,37 @@ app.delete('/delete', (req, res) => {
             res.send('deleted');
         }
     })  
+})
+
+app.post('/', (req, res) => {
+    const { id, name, price, img } = req.body;
+
+    db.get('SELECT count FROM basket WHERE product_id = ?', [id], (err, data) => {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log(data);
+            if (!data) {
+                const count = 1;
+                db.run('INSERT INTO basket (product_id, name, price, img, count) VALUES (?, ?, ?, ?, ?)', [id, name, price, img, count], (error) => {
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        res.send('added');
+                    }
+                } )
+            } else {
+                const newCount = data.count + 1;
+                db.run('UPDATE basket SET count = ? WHERE product_id = ?', [newCount, id], (error, data) => {
+                    if(error) {
+                        console.error(error);
+                    } else {
+                        res.send('added');
+                    }
+                })
+            }
+        }
+    })
 })
 
 app.listen(port, () => {

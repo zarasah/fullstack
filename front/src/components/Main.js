@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
-
 import './Main.css';
-// import Data from '../data/data.json';
 import Item from './Item';
-
-// const data = Object.values(Data);
 
 export default function Main(props) {
     const [data, setData] = useState([]);

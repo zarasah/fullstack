@@ -14,38 +14,49 @@ import Featured from './components/Featured';
 import './App.css';
 
 export default function App() {
-  const [orders, setOrders] = useState([]);
-  const [count, setCount] = useState(0);
+  // const [orders, setOrders] = useState([]);
+  // const [count, setCount] = useState(0);
   const [history, setHistory] = useState([]);
   const [searchKey, setSearchKey] = useState('');
 
-  function counter() {
-    setCount(count + 1);
-  }
+  // function counter() {
+  //   setCount(count + 1);
+  // }
+
+  // function addToOrder(item) {
+  //   counter();
+  //   const newItem = {...item};
+  //   const price = item.price;
+    
+  //   if (orders.length === 0) {
+  //     newItem.count = 1;
+  //     setOrders([newItem]);
+  //   } else {
+  //     for (let i = 0; i < orders.length; i++) {
+  //       if (newItem.id === orders[i].id) {
+
+  //         setOrders((item) => {
+  //           item[i].count += 1;
+  //           item[i].price = item[i].count * price ;
+  //           return item;
+  //         })
+  //         return;
+  //       }
+  //     }
+  //     newItem.count = 1;
+  //     setOrders([...orders, newItem]);
+  //   }
+  // }
 
   function addToOrder(item) {
-    counter();
-    const newItem = {...item};
-    const price = item.price;
-    
-    if (orders.length === 0) {
-      newItem.count = 1;
-      setOrders([newItem]);
-    } else {
-      for (let i = 0; i < orders.length; i++) {
-        if (newItem.id === orders[i].id) {
-
-          setOrders((item) => {
-            item[i].count += 1;
-            item[i].price = item[i].count * price ;
-            return item;
-          })
-          return;
-        }
+    fetch('http://localhost:3001/', {
+      method: 'POST',
+      body: JSON.stringify(item),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
       }
-      newItem.count = 1;
-      setOrders([...orders, newItem]);
-    }
+    },
+    )
   }
 
   function addToHistory(item) {
@@ -69,7 +80,8 @@ export default function App() {
 
   return (
     <div className = "container">
-    <Header count = {count} search = {forSearch}/>
+    <Header search = {forSearch}/>
+    {/* <Header count = {count} search = {forSearch}/> */}
     <div className = "wrapper">
       <div className = 'side'>
         <Sidebar />
@@ -82,7 +94,8 @@ export default function App() {
         <Route path = "/blog" element = {<Blog />}/>
         <Route path = "/contact" element = {<Contact />}/>
         <Route path = "/:id" element = {<Selected />}/>
-        <Route path = "/basket" element = {<Basket data = {orders}/>}/>
+        <Route path = "/basket" element = {<Basket />}/>
+        {/* <Route path = "/basket" element = {<Basket data = {orders}/>}/> */}
         <Route />
       </Routes>
     </div>

@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import './Selected.css';
-// import Data from '../data/data.json';
-
-// const data = Object.values(Data);
 
 export default function Selected() {
     const [data, setData] = useState({});
@@ -14,12 +11,6 @@ export default function Selected() {
         .then(res => res.json())
         .then(data => setData(data))
     }, [id])
-   
-    // const selectedData = data.filter((item) => {
-    //     return item.id === id;
-    // })[0]
-
-    // const { name, price, img, description } = selectedData;
 
     const { name, price, img, description } = data;
 

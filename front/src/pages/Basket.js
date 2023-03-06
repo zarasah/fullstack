@@ -1,5 +1,16 @@
+import { useState, useEffect } from "react";
+
 export default function Basket(props) {
-  if (props.data.length === 0) {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/basket')
+    .then(res => res.json())
+    .then(data => setData(data))
+}, [])
+
+
+  if (data.length === 0) {
     return (
       <div className = "basket-page-empty">
         <p>Basket is empty</p>
@@ -7,7 +18,6 @@ export default function Basket(props) {
     )
   }
 
-  const data = props.data;
     return (
       <div className = "basket-page">
         {
